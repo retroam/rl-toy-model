@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "RL Toy Model"
+description = "An interactive visual lesson that helps beginners understand reinforcement learning through a small toy environment, live agent actions, rewards, and value updates."
+version = "1.0.0"
+id = "artifacts/rl-toy-model"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19480
+
+[services.development]
+run = "pnpm --filter @workspace/rl-toy-model run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/rl-toy-model", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/rl-toy-model/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19480"
+BASE_PATH = "/"
